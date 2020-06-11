@@ -39,7 +39,6 @@ from RFM, r_min_max
 where r_bucket=4) 
 
 select *
-into public.r_bucket
 from bucket_table 
 where bucket is not null;
 
