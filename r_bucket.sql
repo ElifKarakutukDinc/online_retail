@@ -19,13 +19,13 @@ select customerid,
 	CASE
             WHEN RFM.r between min_r and max_r THEN 1 end  bucket
 from RFM, r_min_max
-where r_bucket=1
+where r_bucket=5
 union 
 select customerid, 
 	CASE
             WHEN RFM.r between min_r and max_r THEN 2 end  bucket
 from RFM, r_min_max
-where r_bucket=2
+where r_bucket=4
 union select customerid, 
 	CASE
             WHEN RFM.r between min_r and max_r THEN 3 end  bucket
@@ -36,7 +36,13 @@ select customerid,
 	CASE
             WHEN RFM.r between min_r and max_r THEN 4 end  bucket
 from RFM, r_min_max
-where r_bucket=4) 
+where r_bucket=2
+union 
+select customerid, 
+	CASE
+            WHEN RFM.r between min_r and max_r THEN 5 end  bucket
+from RFM, r_min_max
+where r_bucket=1) 
 
 select *
 from bucket_table 

@@ -1,4 +1,5 @@
 --m bucket
+drop table m_bucket ;
 with min_max AS (
     SELECT 
         min(m) AS min_val,
@@ -36,8 +37,15 @@ select customerid,
 	CASE
             WHEN RFM.m between min_m and max_m THEN 4 end  bucket
 from RFM, m_min_max
-where m_bucket=4) 
+where m_bucket=4
+union 
+select customerid, 
+	CASE
+            WHEN RFM.m between min_m and max_m THEN 5 end  bucket
+from RFM, m_min_max
+where m_bucket=5) 
 
 select *
+into m_bucket
 from bucket_table 
 where bucket is not null;
