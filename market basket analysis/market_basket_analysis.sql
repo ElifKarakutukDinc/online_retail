@@ -17,7 +17,6 @@ create index ix5 on stock_number(id);
 
 /*
 Quality check - 1: Is there any null description?
-
 select
 case
 	when length(ltrim(rtrim(description))) = 0 then 'empty_description'
@@ -25,12 +24,8 @@ case
 count(1) as cnt
 from stock_number
 group by 1;
-
-empty_description	960
-non_empty_description	4792
-
+non_empty_description	4161
 Quality check - 2: Is there any null stockcode?
-
 select
 case
 	when length(ltrim(rtrim(stockcode))) = 0 then 'empty_stockcode'
@@ -38,16 +33,12 @@ case
 count(1) as cnt
 from stock_number
 group by 1;
-
-non_empty_stockcode	5752
-
+non_empty_stockcode	4161
 Quality check - 3: Are there any duplicate descriptions for a single stockcode?
-
 select stockcode
 from stock_number
 group by 1
 having count(1) > 2
-
 select distinct description
 from retail
 where stockcode = '23209'
@@ -56,7 +47,6 @@ where stockcode = '23209'
 /*
 As we found out some stockcodes have more than one description. It can be an issue of using same stockcode
 for different products or changing descriptions over time.
-
 In order to continue our analysis we need to delete these stockcodes from our unique table.
  */
 
@@ -67,18 +57,14 @@ group by 1
 having count(1) > 2);
 
 /*
-
 At some transactions same stockcode, product, can be purchased more than once and not grouped at invoice.
 For our use case which is which products were bought together, we need to get unique products per invoice.
-
 select *
 from retail
 where invoiceno = '548708' and	stockcode = '22859'
-
 invoiceno	stockcode	description	quantity	invoicedate
 548708	22859	EASTER TIN BUNNY BOUQUET	2	2011-04-03 12:41:00
 548708	22859	EASTER TIN BUNNY BOUQUET	1	2011-04-03 12:41:00
-
 */
 
 --Creating unique invoice, stockcode and description table
@@ -107,16 +93,13 @@ create index ix8 on retail_stock_updated(stockcode);
 
 /*
 Quality check - 1: Duplicate row check?
-
 select invoiceno, stockcode,description,stock_id
 from retail_stock_updated
 group by 1,2,3,4
 having count(1) > 1
-
 select *
 from retail_stock_updated
 limit 10;
-
  */
 
 --Creating bought together item list.
@@ -145,22 +128,17 @@ create index ix3 on market_basket(PRODUCT_1);
 create index ix4 on market_basket(PRODUCT_2);
 
 /*
-
 Quality check - 1: Checking null product ids.
-
 select *
 from market_basket
 where product_1 is null;
-
 select *
 from market_basket
 where product_2 is null;
-
 select *
 from market_basket
 order by 3 desc
 limit 10;
-
  */
 
 /*
@@ -193,7 +171,3 @@ on (mb.product_2 = rs_2.id);
 select *
 from market_basket_description
 order by TRANS_COUNT desc;
-
-
-
-
