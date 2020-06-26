@@ -70,9 +70,25 @@ invoiceno	stockcode	description	quantity	invoicedate
 --Creating unique invoice, stockcode and description table
 
 drop table if exists retail_unique;
+
+with retail_unique_0 as (
 select distinct invoiceno, stockcode, description
+from retail),
+
+stockcode_desc as (select stockcode ,description 
+from (
+select distinct stockcode , description, RANK() OVER (
+    PARTITION BY stockcode 
+    ORDER BY stockcode asc,description desc
+)
+from retail_unique_0) A
+where rank = 1)
+
+select distinct x.invoiceno, y.stockcode, y.description
 into retail_unique
-from retail;
+from retail as x
+inner join stockcode_desc y 
+on (x.stockcode = y.stockcode);
 
 create index ix6 on retail_unique(invoiceno);
 create index ix7 on retail_unique(stockcode);
@@ -170,4 +186,5 @@ on (mb.product_2 = rs_2.id);
 
 select *
 from market_basket_description
-order by TRANS_COUNT desc;
+order by TRANS_COUNT desc
+limit 50;
