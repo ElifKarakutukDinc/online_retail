@@ -9,14 +9,26 @@ drop table IF EXISTS stock_number;
 create table stock_number (stockcode varchar(15), description varchar(2048), id serial);
 
 insert into stock_number (stockcode,description)
-select distinct stockcode,description
+select stockcode ,description 
+from (
+select distinct stockcode , description, RANK() OVER (
+    PARTITION BY stockcode 
+    ORDER BY stockcode asc,description desc
+)
 from retail
-where unitprice >0 and quantity >0; --using only valid transactions and exluding minus ones.
+where unitprice >0 and quantity >0) A
+where rank = 1;
 
 create index ix5 on stock_number(id);
 
+
 /*
-Quality check - 1: Is there any null description?
+Quality check - 1:
+select *
+from stock_number
+where description like '%POPCORN HOLDER%';
+
+  Is there any null description?
 select
 case
 	when length(ltrim(rtrim(description))) = 0 then 'empty_description'
@@ -188,3 +200,6 @@ select *
 from market_basket_description
 order by TRANS_COUNT desc
 limit 50;
+
+
+
