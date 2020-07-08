@@ -28,7 +28,7 @@ select *
 from stock_number
 where description like '%POPCORN HOLDER%';
 
-  Is there any null description?
+Quality check - 2:  Is there any null description?
 select
 case
 	when length(ltrim(rtrim(description))) = 0 then 'empty_description'
@@ -36,8 +36,8 @@ case
 count(1) as cnt
 from stock_number
 group by 1;
-non_empty_description	4161
-Quality check - 2: Is there any null stockcode?
+non_empty_description	3922
+Quality check - 3: Is there any null stockcode?
 select
 case
 	when length(ltrim(rtrim(stockcode))) = 0 then 'empty_stockcode'
@@ -45,8 +45,8 @@ case
 count(1) as cnt
 from stock_number
 group by 1;
-non_empty_stockcode	4161
-Quality check - 3: Are there any duplicate descriptions for a single stockcode?
+non_empty_stockcode	3922
+Quality check - 4: Are there any duplicate descriptions for a single stockcode?
 select stockcode
 from stock_number
 group by 1
