@@ -16,7 +16,6 @@ I wrote all the queries at PostgreSQL.
 You can peruse my Tableau account to see all dashboards about RFM Onlne Retail Analysis.
 
 My Tableau Public Account: https://public.tableau.com/profile/elif.karakutuk#!/
-
                            https://tabsoft.co/322rtZL
                            
                            
@@ -30,7 +29,6 @@ My Tableau Public Account: https://public.tableau.com/profile/elif.karakutuk#!/
 You can peruse my Tableau account to see all dashboards about RFM Onlne Retail Analysis.
 
 My Tableau Public Account: https://public.tableau.com/profile/elif.karakutuk#!/
-
                            https://tabsoft.co/31XA2EP
 
 
