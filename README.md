@@ -31,6 +31,6 @@ You can peruse my Tableau account to see all dashboards about RFM Onlne Retail A
 My Tableau Public Account: https://public.tableau.com/profile/elif.karakutuk#!/
                            https://tabsoft.co/31XA2EP
 
-
+![Screenshot](adsız.png)
 
 
